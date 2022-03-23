@@ -3,7 +3,7 @@ import UIKit
 
 public class SwiftSamplePluginFlutterPlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
-    let channel = FlutterMethodChannel(name: "sample_plugin_flutter_nhacvo", binaryMessenger: registrar.messenger())
+    let channel = FlutterMethodChannel(name: "com.clv.demo/battery", binaryMessenger: registrar.messenger())
     let instance = SwiftSamplePluginFlutterPlugin()
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
