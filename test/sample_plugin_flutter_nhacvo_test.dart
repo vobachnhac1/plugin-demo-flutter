@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sample_plugin_flutter_nhacvo/sample_plugin_flutter_nhacvo.dart';
 
 void main() {
-  const MethodChannel channel = MethodChannel('sample_plugin_flutter_nhacvo');
+  const MethodChannel channel = MethodChannel('com.clv.demo/battery');
 
   TestWidgetsFlutterBinding.ensureInitialized();
 
