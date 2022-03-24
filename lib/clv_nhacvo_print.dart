@@ -3,12 +3,18 @@ import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
 
-class EventPrintPos {
-  static const MethodChannel channel = MethodChannel('com.clv.demo/print');
+class ClvNhacvoPrint {
+  // static const MethodChannel _channel = MethodChannel('clv_nhacvo_print');
+  static const MethodChannel channel = MethodChannel('com.clv.demo/battery');
   static const MethodChannel channelPrint = MethodChannel('com.clv.demo/print');
 
+  static Future<String> get platformVersion async {
+    final String version = await channel.invokeMethod('getPlatformVersion');
+    return version;
+  }
+
   // Get battery level.
-  static Future<String> getBatteryLevel() async {
+  Future<String> getBatteryLevel() async {
     String batteryLevel;
     try {
       final int result = await channel.invokeMethod('getBatteryLevel');
@@ -19,18 +25,17 @@ class EventPrintPos {
     return batteryLevel;
   }
 
-  static Future<String> getMessage() async {
+  Future<String> getMessage() async {
     String value = "";
     try {
       value = await channelPrint.invokeMethod("getMessage");
-      print(value);
     } catch (e) {
       print(e);
     }
     return value;
   }
 
-  static Future<dynamic> sendSignalPrint(Uint8List capturedImage) async {
+  Future<dynamic> sendSignalPrint(Uint8List capturedImage) async {
     var _sendData = <String, dynamic>{
       "bitmapInput": capturedImage,
       "printerDpi": 190,
@@ -39,8 +44,11 @@ class EventPrintPos {
       "widthMax": 580,
       "heightMax": 400,
     };
-    var result = await channelPrint.invokeMethod("onPrint", _sendData);
-    print(result);
-    return result;
+    try {
+      var result = await channelPrint.invokeMethod("onPrint", _sendData);
+      return result;
+    } catch (e) {
+      return null;
+    }
   }
 }
