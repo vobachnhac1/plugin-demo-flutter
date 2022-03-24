@@ -40,5 +40,6 @@ class EventPrintPos {
     };
     var result = await channelPrint.invokeMethod("onPrint", _sendData);
     print(result);
+    return result;
   }
 }
