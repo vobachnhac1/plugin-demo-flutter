@@ -8,7 +8,7 @@ class EventPrintPos {
   static const MethodChannel channelPrint = MethodChannel('com.clv.demo/print');
 
   // Get battery level.
-  static Future<String> getBatteryLevel() async {
+  Future<String> getBatteryLevel() async {
     String batteryLevel;
     try {
       final int result = await channel.invokeMethod('getBatteryLevel');
@@ -19,7 +19,7 @@ class EventPrintPos {
     return batteryLevel;
   }
 
-  static Future<String> getMessage() async {
+  Future<String> getMessage() async {
     String value = "";
     try {
       value = await channelPrint.invokeMethod("getMessage");
@@ -29,7 +29,7 @@ class EventPrintPos {
     return value;
   }
 
-  static Future<dynamic> sendSignalPrint(Uint8List capturedImage) async {
+  Future<dynamic> sendSignalPrint(Uint8List capturedImage) async {
     var _sendData = <String, dynamic>{
       "bitmapInput": capturedImage,
       "printerDpi": 190,
