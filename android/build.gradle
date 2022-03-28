@@ -16,7 +16,6 @@ rootProject.allprojects {
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://jitpack.io' }
     }
 }
 
@@ -35,8 +34,10 @@ android {
     }
 }
 dependencies {
-    implementation 'com.github.dantsu:escpos-thermalprinter-android:2.0.11'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.android.support:appcompat-v7:+'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.google.zxing:core:3.4.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
 }

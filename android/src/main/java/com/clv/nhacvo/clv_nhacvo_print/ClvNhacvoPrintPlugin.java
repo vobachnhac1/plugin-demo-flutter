@@ -33,11 +33,11 @@ import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 import io.flutter.plugin.common.PluginRegistry.RequestPermissionsResultListener;
 
-import com.dantsu.escposprinter.EscPosPrinter;
-import com.dantsu.escposprinter.connection.bluetooth.BluetoothConnection;
-import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections;
-import com.dantsu.escposprinter.textparser.PrinterTextParserImg;
-import com.dantsu.escposprinter.exceptions.EscPosConnectionException;
+import com.clv.nhacvo.printer.EscPosPrinter;
+import com.clv.nhacvo.printer.connection.bluetooth.BluetoothConnection;
+import com.clv.nhacvo.printer.connection.bluetooth.BluetoothPrintersConnections;
+import com.clv.nhacvo.printer.textparser.PrinterTextParserImg;
+import com.clv.nhacvo.printer.exceptions.EscPosConnectionException;
 
 
 import java.util.ArrayList;
