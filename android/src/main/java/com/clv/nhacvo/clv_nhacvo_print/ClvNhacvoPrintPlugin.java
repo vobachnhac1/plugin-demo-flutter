@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import android.widget.Toast;
 
 /** ClvNhacvoPrintPlugin */
 public class ClvNhacvoPrintPlugin implements FlutterPlugin, ActivityAware, MethodCallHandler, RequestPermissionsResultListener {
@@ -102,11 +103,16 @@ public class ClvNhacvoPrintPlugin implements FlutterPlugin, ActivityAware, Metho
         int widthMax = (int) arguments.get("widthMax");
         Map<String, Object> arrStatus = onPrint(bitmapInput, printerDpi, widthMax, heightMax);
         result.success(arrStatus);
+      }else if (call.method.equals("onBluetooth")) { 
+        turnOnBluetooth();
+      }else if (call.method.equals("offBluetooth")) { 
+        turnOffBluetooth();
       }
     } catch (Exception e) {
       result.error("500", "Server Error", e.getMessage());
     }
   }
+
 
   @Override
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
@@ -115,6 +121,7 @@ public class ClvNhacvoPrintPlugin implements FlutterPlugin, ActivityAware, Metho
     pluginBinding = null;
 
   }
+
 
   public ClvNhacvoPrintPlugin(){
   }
@@ -148,9 +155,6 @@ public class ClvNhacvoPrintPlugin implements FlutterPlugin, ActivityAware, Metho
   public void onDetachedFromActivityForConfigChanges() {
     onDetachedFromActivity();
   }
-
-
-
 
   private void setup(
           final BinaryMessenger messenger,
@@ -197,6 +201,7 @@ public class ClvNhacvoPrintPlugin implements FlutterPlugin, ActivityAware, Metho
     return false;
 
   }
+  
   private ArrayList<DevicesModel> onGetDevicesBluetooth() {
     pairedDevices = mBluetoothAdapter.getBondedDevices();
     devices = new ArrayList<>();
@@ -206,6 +211,7 @@ public class ClvNhacvoPrintPlugin implements FlutterPlugin, ActivityAware, Metho
     }
     return devices;
   }
+  
   private Map<String, Object> onPrint(
           byte[] bitmapInput,
           int printerDpi ,
@@ -260,6 +266,32 @@ public class ClvNhacvoPrintPlugin implements FlutterPlugin, ActivityAware, Metho
     }
     dataMap.put("message",_message);
     return dataMap;
+  }
+
+  private void turnOnBluetooth (){
+    try { 
+      if(mBluetoothAdapter == null)
+      {
+          Toast.makeText(context,"Bluetooth Not Supported",Toast.LENGTH_SHORT).show();
+      }
+      else{
+          if(!mBluetoothAdapter.isEnabled()){
+              activity.startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE),1);
+              Toast.makeText(context,"Bluetooth Turned ON",Toast.LENGTH_SHORT).show();
+          }
+      }
+    }catch (Exception ex){
+        System.out.println(ex.getMessage());
+    }
+  }
+
+  private void turnOffBluetooth (){
+    try { 
+      mBluetoothAdapter.disable();
+      Toast.makeText(context,"Bluetooth Turned OFF", Toast.LENGTH_SHORT).show();
+    }catch (Exception ex){
+        System.out.println(ex.getMessage());
+    }
   }
 }
 

@@ -43,4 +43,14 @@ class EventPrintPos {
     print(result);
     return result;
   }
+
+  static Future<dynamic> onBluetooth() async {
+    var result = await channelPrint.invokeMethod("onBluetooth");
+    return result;
+  }
+
+  static Future<dynamic> offBluetooth() async {
+    var result = await channelPrint.invokeMethod("offBluetooth");
+    return result;
+  }
 }
