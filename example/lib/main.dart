@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'dart:collection';
 import 'dart:typed_data';
+import 'dart:math' as math;
 
 import 'package:bluetooth_print/bluetooth_print.dart';
 import 'package:bluetooth_print/bluetooth_print_model.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:measure_size/measure_size.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:image/image.dart' as img;
 
 void main() {
   runApp(const MyApp());
@@ -284,6 +286,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
               ),
+              // Transform.rotate(angle: 90 * math.pi / 180, child: ScreenTest())
               ScreenTest()
             ],
           ),
@@ -335,15 +338,19 @@ class _MyHomePageState extends State<MyHomePage> {
     screenshotController
         .capture(delay: const Duration(milliseconds: 10))
         .then((capturedImage) async {
+      final originalImage = img.decodeImage(capturedImage);
+      img.Image fixedImage;
+      fixedImage = img.copyRotate(originalImage, -90);
+      var result =
+          await EventPrintPos.sendSignalPrint(img.encodeJpg(fixedImage));
       var _sendData = <String, dynamic>{
-        "bitmapInput": capturedImage,
+        "bitmapInput": result,
         "printerDpi": 190,
         "printerWidthMM": int.parse('80'),
         "printerNbrCharactersPerLine": 32,
         "widthMax": 580,
         "heightMax": 400,
       };
-      var result = await EventPrintPos.sendSignalPrint(capturedImage);
       print(result);
     }).catchError((onError) {
       print(onError);
@@ -352,8 +359,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   ScreenshotController screenshotController = ScreenshotController();
   Size screenTestSize = Size.zero;
+
   Widget ScreenTest() {
-    var pixRatio = MediaQuery.of(context).devicePixelRatio;
     return MeasureSize(
         onChange: (size) {
           screenTestSize = size;
@@ -376,46 +383,6 @@ class _MyHomePageState extends State<MyHomePage> {
               const SizedBox(
                 height: 25,
               ),
-              // ElevatedButton(
-              //   child: Text(
-              //     'Capture Above Widget',
-              //   ),
-              //   onPressed: () {
-              //     screenshotController
-              //         .capture(delay: Duration(milliseconds: 10))
-              //         .then((capturedImage) async {
-              //       ShowCapturedWidget(context, capturedImage);
-              //     }).catchError((onError) {
-              //       print(onError);
-              //     });
-              //   },
-              // ),
-              // ElevatedButton(
-              //   child: Text(
-              //     'Capture An Invisible Widget',
-              //   ),
-              //   onPressed: () {
-              //     var container = Container(
-              //         padding: const EdgeInsets.all(30.0),
-              //         decoration: BoxDecoration(
-              //           border:
-              //               Border.all(color: Colors.blueAccent, width: 5.0),
-              //           color: Colors.redAccent,
-              //         ),
-              //         child: Text(
-              //           "This is an invisible widget",
-              //           style: Theme.of(context).textTheme.headline6,
-              //         ));
-              //     screenshotController
-              //         .captureFromWidget(
-              //             InheritedTheme.captureAll(
-              //                 context, Material(child: container)),
-              //             delay: Duration(seconds: 1))
-              //         .then((capturedImage) {
-              //       ShowCapturedWidget(context, capturedImage);
-              //     });
-              //   },
-              // ),
             ],
           ),
         ));
@@ -581,6 +548,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       },
                       child: Container(
                         width: widthCol - (width - widthCol),
+                        // height: heigthAOPO.height,
                         alignment: Alignment.topRight,
                         child: Table(
                           border: BoderCustom(),
