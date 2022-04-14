@@ -229,8 +229,13 @@ public class ClvNhacvoPrintPlugin implements FlutterPlugin, ActivityAware, Metho
           int heightTemp = decodedByte.getHeight();
 
          
-          widthTemp = widthMax < 580? 580 : widthMax;
-          heightTemp = heightMax < 100? 200 : heightMax;
+          widthTemp = widthMax < 580 ? 580 : widthMax;
+
+          if(heightTemp > 900){
+            heightTemp = 900;
+          }else if(heightTemp <200){
+            heightTemp = 200;
+          }
 
           System.out.println( "-----------------Start--------------------");
           System.out.println( "Input:  " + widthMax + " || " + heightMax);
