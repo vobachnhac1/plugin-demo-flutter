@@ -82,17 +82,13 @@ public class ClvNhacvoPrintPlugin implements FlutterPlugin, ActivityAware, Metho
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
     try {
         Map<String, Object> arguments = call.arguments();
-        System.out.println("NHACVO_DEMO: I am here");
         System.out.println("NHACVO_DEMO: "+ call.method);
-
       if (call.method.toString() == "getPlatformVersion") {
         result.success("Android ${android.os.Build.VERSION.RELEASE}");
       } else  if (call.method.equals("getMessage")) {
-        System.out.println("I am here getMessage");
         String message = "Android say hi!";
         result.success(message);
       } else if (call.method.equals("getDevices")) {
-        System.out.println("I am here getDevices");
         ArrayList<DevicesModel> arrDevice = onGetDevicesBluetooth();
         result.success(arrDevice);
       } else if (call.method.equals("onPrint")) {
@@ -234,8 +230,8 @@ public class ClvNhacvoPrintPlugin implements FlutterPlugin, ActivityAware, Metho
 
 
           System.out.println( "-----------------Start--------------------");
-          System.out.println( "Input:   $widthMax || $heightMax");
-          System.out.println( "Curent:  $widthTemp || $heightTemp");
+          System.out.println( "Input:  " + widthMax + " || " + heightMax);
+          System.out.println( "Current:  " + widthTemp + " || " + heightTemp);
           System.out.println( "------------------End---------------------");
 
           widthTemp = widthMax < 580? 580 : widthMax;
@@ -254,7 +250,7 @@ public class ClvNhacvoPrintPlugin implements FlutterPlugin, ActivityAware, Metho
           printer.printFormattedTextAndCut(textToPrint.toString());
           _message = "Success";
         } else {
-          println("\"No printer was connected!\"");
+          // println("\"No printer was connected!\"");
           _message = "\"No printer was connected!\"";
           Map<String, Object> arrStatus = onPrint(bitmapInput, printerDpi, widthMax, heightMax);
         }
