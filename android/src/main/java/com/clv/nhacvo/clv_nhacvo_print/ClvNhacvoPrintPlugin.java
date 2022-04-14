@@ -252,7 +252,6 @@ public class ClvNhacvoPrintPlugin implements FlutterPlugin, ActivityAware, Metho
             Bitmap bitmap = Bitmap.createBitmap(resizedBitmap, 0, y, width, (y + 256 >= height) ? height - y : 256);
             textToPrint.append("[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, bitmap) + "</img>\n");
           }
-          textToPrint.append("[C]Printed!!!\n");
           printer.printFormattedTextAndCut(textToPrint.toString());
           _message = "Success";
         } else {
