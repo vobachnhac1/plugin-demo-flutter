@@ -228,14 +228,15 @@ public class ClvNhacvoPrintPlugin implements FlutterPlugin, ActivityAware, Metho
           int widthTemp = decodedByte.getWidth();
           int heightTemp = decodedByte.getHeight();
 
+         
+          widthTemp = widthMax < 580? 580 : widthMax;
+          heightTemp = heightMax < 100? 200 : heightMax;
 
           System.out.println( "-----------------Start--------------------");
           System.out.println( "Input:  " + widthMax + " || " + heightMax);
           System.out.println( "Current:  " + widthTemp + " || " + heightTemp);
           System.out.println( "------------------End---------------------");
 
-          widthTemp = widthMax < 580? 580 : widthMax;
-          heightTemp = heightMax < 100? 200 : heightMax;
           Bitmap resizedBitmap = Bitmap.createScaledBitmap(decodedByte, widthTemp, heightTemp, false);
           decodedByte.recycle();
           int width = resizedBitmap.getWidth();
@@ -258,7 +259,7 @@ public class ClvNhacvoPrintPlugin implements FlutterPlugin, ActivityAware, Metho
     }
     catch (Exception e) {
       _message = "Error";
-      println(e.getMessage());
+      // println(e.getMessage());
     }
     dataMap.put("message",_message);
     return dataMap;
