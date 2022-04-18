@@ -97,7 +97,7 @@ public class ClvNhacvoPrintPlugin implements FlutterPlugin, ActivityAware, Metho
         int printerDpi = (int) arguments.get("printerDpi");
         int heightMax = (int) arguments.get("heightMax");
         int widthMax = (int) arguments.get("widthMax");
-        Map<String, Object> arrStatus = onPrint(bitmapInput, printerDpi, widthMax, heightMax);
+        Map<String, Object> arrStatus = onPrint(bitmapInput, printerDpi, widthMax, heightMax, 0);
         result.success(arrStatus);
       }else if (call.method.equals("onBluetooth")) { 
         turnOnBluetooth();
@@ -212,9 +212,15 @@ public class ClvNhacvoPrintPlugin implements FlutterPlugin, ActivityAware, Metho
           byte[] bitmapInput,
           int printerDpi ,
           int heightMax ,
-          int widthMax  ){
+          int widthMax, int callback ){
     Map<String, Object>  dataMap = new HashMap<>();
     String _message = "";
+    if(callback < 3){
+      callback +=1;
+    }else{
+      _message = "Callback Function Error";
+      return dataMap.put("message",_message);
+    }
     try {
       if (ContextCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
         ActivityCompat.requestPermissions( activityBinding.getActivity(), new String[]{Manifest.permission.BLUETOOTH}, PERMISSION_BLUETOOTH);
@@ -257,7 +263,7 @@ public class ClvNhacvoPrintPlugin implements FlutterPlugin, ActivityAware, Metho
         } else {
           // println("\"No printer was connected!\"");
           _message = "\"No printer was connected!\"";
-          Map<String, Object> arrStatus = onPrint(bitmapInput, printerDpi, widthMax, heightMax);
+          Map<String, Object> arrStatus = onPrint(bitmapInput, printerDpi, widthMax, heightMax, callback);
         }
       }
     }
