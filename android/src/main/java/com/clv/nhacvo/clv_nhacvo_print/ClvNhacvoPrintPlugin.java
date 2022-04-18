@@ -219,7 +219,8 @@ public class ClvNhacvoPrintPlugin implements FlutterPlugin, ActivityAware, Metho
       callback +=1;
     }else{
       _message = "Callback Function Error";
-      return dataMap.put("message",_message);
+      dataMap.put("message",_message);
+      return dataMap;
     }
     try {
       if (ContextCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
